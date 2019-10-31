@@ -82,6 +82,10 @@ namespace Json {
     bool Unmarshal(vector<T>& ,const Json::Value&); //在模板相互循环调用对方时,必须先声明,使所有类型的模板可见!
     template <typename T>
     bool Unmarshal(map<string,T>& ,const Json::Value&);
+    template <typename T>
+    bool Unmarshal(map<int,T>& obj,const Json::Value& root);
+    template <typename T>
+    bool Unmarshal(map<long,T>& obj,const Json::Value& root);
 
     //vector
     template <typename T>
@@ -99,7 +103,7 @@ namespace Json {
         return ret;
     }
 
-    //map
+    //map key:string
     template <typename T>
     bool Unmarshal(map<string,T>& obj,const Json::Value& root){
         if(!root.isObject())
@@ -109,6 +113,36 @@ namespace Json {
         bool ret = true;
         for(auto it = mems.begin();it!=mems.end();++it){
             if(!Unmarshal(obj[*it],root[*it]))
+                ret = false;
+        }
+        return ret;
+    }
+
+    //map key:int
+    template <typename T>
+    bool Unmarshal(map<int,T>& obj,const Json::Value& root){
+        if(!root.isObject())
+            return false;
+        obj.clear();
+        auto mems = root.getMemberNames();
+        bool ret = true;
+        for(auto it = mems.begin();it!=mems.end();++it){
+            if(!Unmarshal(obj[atoi(it->c_str())],root[*it]))
+                ret = false;
+        }
+        return ret;
+    }
+
+    //map key:long
+    template <typename T>
+    bool Unmarshal(map<long,T>& obj,const Json::Value& root){
+        if(!root.isObject())
+            return false;
+        obj.clear();
+        auto mems = root.getMemberNames();
+        bool ret = true;
+        for(auto it = mems.begin();it!=mems.end();++it){
+            if(!Unmarshal(obj[atol(it->c_str())],root[*it]))
                 ret = false;
         }
         return ret;
@@ -147,6 +181,10 @@ namespace Json {
     void Marshal(const vector<T>& ,Json::Value &);
     template <typename T>
     void Marshal(const map<string,T>& ,Json::Value &);
+    template <typename T>
+    void Marshal(const map<int,T>& obj,Json::Value &root);
+    template <typename T>
+    void Marshal(const map<long,T>& obj,Json::Value &root);
 
     // vector
     template <typename T>
@@ -156,11 +194,31 @@ namespace Json {
         }
     }
 
-    // map
+    // map key:string
     template <typename T>
     void Marshal(const map<string,T>& obj,Json::Value &root){
         for(auto it=obj.begin();it!=obj.end();++it){
             Marshal(it->second,root[it->first]);
+        }
+    }
+
+    // map key:int
+    template <typename T>
+    void Marshal(const map<int,T>& obj,Json::Value &root){
+        char num_buf[15] = {0};
+        for(auto it=obj.begin();it!=obj.end();++it){
+            snprintf(num_buf,15,"%d",it->first);
+            Marshal(it->second,root[num_buf]);
+        }
+    }
+
+    // map key:long
+    template <typename T>
+    void Marshal(const map<long,T>& obj,Json::Value &root){
+        char num_buf[25] = {0};
+        for(auto it=obj.begin();it!=obj.end();++it){
+            snprintf(num_buf,25,"%ld",it->first);
+            Marshal(it->second,root[num_buf]);
         }
     }
 
