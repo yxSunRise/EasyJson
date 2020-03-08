@@ -63,12 +63,15 @@ int main() {
     // 从json字符串反序列化对象
     bool ret = Json::Unmarshal(tchs,ori);
     if(!ret){
-        cout<<"Unmarshal Failed"<<endl;
+        cout<<"反序列失败"<<endl;
         return 0;
+    }else{
+        cout<<"反序列成功"<<endl;
     }
 
     // 序列化对象到 json字符串
+    cout<<"输出对象序列化的json:"<<endl;
     string obj2json;
     Json::Marshal(tchs,obj2json);
-    cout<<obj2json; //{"Tea_1":{"name":"Tea_1","stus":[{"id":201721020126,"name":"Stu.a","score":80.0,"sex":false},{"id":201101101537,"name":"Stu.b","score":0.0,"sex":true}],"subject":3},"Tea_2":{"name":"Tea_2","stus":[{"id":201521020128,"name":"Stu.c","score":59.0,"sex":true}],"subject":1}}
+    cout<<obj2json;
 }

@@ -1,0 +1,32 @@
+编译: 需要GCC 4.8以上
+	make && ./EasyJson
+
+说明: 基于jsoncpp轻量级的 Unmarshal  Marshal 实现
+支持:
+	vector<T>  map<string,T> map<long,T>  map<int,T>
+	int long bool float double string
+	自定义 struct class
+
+注意:
+	自定义struct/class 需要使用提供的宏JSON_HELP在public作用域里,将需要序列化的字段裹起来
+
+例子:
+	struct Student {
+        long    id;
+        bool    sex;
+        double  score;
+        string  name;
+
+        JSON_HELP(id,sex,score,name)
+    };
+
+    string json_str = R"( [{"id": 201721020126,"sex": false,"score": 80,"name": "Stu.a"}] )"
+
+    vector<Student> stus;
+
+    //反序列化
+    bool ret = Unmarshal(stus,json_str);
+
+    //序列化
+    string obj2json;
+    Json::Marshal(stus,obj2json);
