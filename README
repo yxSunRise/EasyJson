@@ -11,7 +11,7 @@
 	自定义struct/class 需要使用提供的宏JSON_HELP在public作用域里,将需要序列化的字段裹起来
 
 例子:
-	struct Student {
+    struct Student {
         long    id;
         bool    sex;
         double  score;
