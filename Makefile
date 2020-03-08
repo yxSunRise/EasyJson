@@ -16,3 +16,7 @@ EasyJson:${obj}
 
 %.o:%.cpp
 	g++ -c ${FLAGS} ${INCLUDE} ${LIB_PATH} ${LINK} $< -o $@
+
+clean:
+	rm *.o
+	rm EasyJson
