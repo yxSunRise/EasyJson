@@ -3,9 +3,10 @@
 
 说明: 基于jsoncpp轻量级的 Unmarshal  Marshal 实现
 支持:
-	vector<T>  map<string,T> map<long,T>  map<int,T>
-	int long bool float double string
-	自定义 struct class
+	1 vector<T>  map<string,T> map<long,T>  map<int,T>
+	2 int long bool float double string
+	3 自定义 struct class
+	4 上述1 2 3之间的任意组合
 
 注意:
 	自定义struct/class 需要使用提供的宏JSON_HELP在public作用域里,将需要序列化的字段裹起来
