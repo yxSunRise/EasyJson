@@ -25,7 +25,7 @@
     vector<Student> stus;
 
     //反序列化
-    bool ret = Unmarshal(stus,json_str);
+    bool ret = Json::Unmarshal(stus,json_str);
 
     //序列化
     string obj2json;
